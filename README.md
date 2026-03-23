@@ -1,0 +1,5 @@
+I implemented a console-based coffee machine simulator in Java as part of the "Module 2. Java Core -> Medium level project". The program is structured using object-oriented principles. I created separate classes to represent the coffee machine and different coffee types. The application processes user input through methods that simulate real machine operations.
+
+The coffee machine supports the following actions: buying coffee (espresso, latte, cappuccino) filling resources (water, milk, coffee beans, cups) taking money displaying remaining resources cleaning after every 10 cups of coffee
+
+The program maintains and updates its internal state based on available resources and user actions. It also validates resource availability before making coffee and notifies the user if something is missing. This project helped me practice OOP concepts such as classes, encapsulation, methods, and basic program structuring.
