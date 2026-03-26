@@ -1,5 +1,6 @@
 package org.machine;
 import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 
 public class CoffeeMachine {
     private int machineWater;
@@ -9,6 +10,7 @@ public class CoffeeMachine {
     private int machineAmount;
     private int coffeeCount;
     private static final int CLEAN_LIMIT = 10;
+    private final Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8);
 
     public CoffeeMachine() {
         machineWater = 400;
@@ -51,7 +53,6 @@ public class CoffeeMachine {
             return;
         }
 
-        Scanner sc = new Scanner(System.in);
         System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
         String choice = sc.nextLine();
 
@@ -88,8 +89,6 @@ public class CoffeeMachine {
     }
 
     private void fill() {
-        Scanner sc = new Scanner(System.in);
-
         System.out.println("Write how many ml of water you want to add: ");
         int water = sc.nextInt();
         if (water < 0) {
@@ -139,7 +138,6 @@ public class CoffeeMachine {
     }
 
     public void init() {
-        Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("\nWrite action (buy, fill, take, clean, remaining, exit): ");
             String action = sc.nextLine();
