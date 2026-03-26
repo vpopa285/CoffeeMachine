@@ -1,4 +1,4 @@
-package machine;
+package org.machine;
 import java.util.Scanner;
 
 public class CoffeeMachine {
