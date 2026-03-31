@@ -1,5 +1,5 @@
 package org.machine;
-import java.util.Scanner;
+import java.util.*;
 import java.nio.charset.StandardCharsets;
 
 public class CoffeeMachine {
@@ -23,6 +23,30 @@ public class CoffeeMachine {
 
     public static void main(String[] args) {
         new CoffeeMachine().init();
+    }
+
+    public int getMachineWater() {
+        return machineWater;
+    }
+
+    public int getMachineMilk() {
+        return machineMilk;
+    }
+
+    public int getMachineCoffee() {
+        return machineCoffee;
+    }
+
+    public int getMachineCups() {
+        return machineCups;
+    }
+
+    public int getMachineAmount() {
+        return machineAmount;
+    }
+
+    public int getCoffeeCount() {
+        return coffeeCount;
     }
 
     private boolean hasResources(Coffee coffee) {
