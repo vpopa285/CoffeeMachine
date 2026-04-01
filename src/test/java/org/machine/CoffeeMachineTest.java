@@ -3,6 +3,8 @@ package org.machine;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,52 +42,23 @@ class CoffeeMachineTest {
         System.setIn(originalIn);
     }
 
-    @Test
-    void buyEspressoTest() {
-        CoffeeMachine machine = run("buy", "1");
+    @ParameterizedTest
+    @CsvSource({
+            "1, 150, 540, 104, 8, 554",
+            "2, 50, 465, 100, 8, 557",
+            "3, 200, 440, 108, 8, 556"
+    })
+    void buyTest(String input, int water, int milk, int coffee, int cups, int money) {
+        CoffeeMachine machine = run("buy", input);
         String out = captured.toString(StandardCharsets.UTF_8);
 
-        assertTrue(out.contains("I have enough resources, making you a coffee!"), "Wrong output when buying espresso");
+        assertTrue(out.contains("I have enough resources, making you a coffee!"));
 
-        assertAll("Resources after espresso",
-                () -> assertEquals(150, machine.getMachineWater()),
-                () -> assertEquals(540, machine.getMachineMilk()),
-                () -> assertEquals(104, machine.getMachineCoffee()),
-                () -> assertEquals(8, machine.getMachineCups()),
-                () -> assertEquals(554, machine.getMachineAmount())
-                );
-    }
-
-    @Test
-    void buyLatteTest() {
-        CoffeeMachine machine = run("buy", "2");
-        String out = captured.toString(StandardCharsets.UTF_8);
-
-        assertTrue(out.contains("I have enough resources, making you a coffee!"), "Wrong output when buying latte");
-
-        assertAll("Resources after latte",
-                () -> assertEquals(50, machine.getMachineWater()),
-                () -> assertEquals(465, machine.getMachineMilk()),
-                () -> assertEquals(100, machine.getMachineCoffee()),
-                () -> assertEquals(8, machine.getMachineCups()),
-                () -> assertEquals(557, machine.getMachineAmount())
-        );
-    }
-
-    @Test
-    void buyCappuccinoTest() {
-        CoffeeMachine machine = run("buy", "3");
-        String out = captured.toString(StandardCharsets.UTF_8);
-
-        assertTrue(out.contains("I have enough resources, making you a coffee!"), "Wrong output when buying cappuccino");
-
-        assertAll("Resources after cappuccino",
-                () -> assertEquals(200, machine.getMachineWater()),
-                () -> assertEquals(440, machine.getMachineMilk()),
-                () -> assertEquals(108, machine.getMachineCoffee()),
-                () -> assertEquals(8, machine.getMachineCups()),
-                () -> assertEquals(556, machine.getMachineAmount())
-        );
+        assertEquals(water, machine.getMachineWater());
+        assertEquals(milk, machine.getMachineMilk());
+        assertEquals(coffee, machine.getMachineCoffee());
+        assertEquals(cups, machine.getMachineCups());
+        assertEquals(money, machine.getMachineAmount());
     }
 
     @Test
@@ -168,32 +141,19 @@ class CoffeeMachineTest {
         );
     }
 
-    @Test
-    void fillNegativeWaterTest() {
-        CoffeeMachine machine = run("fill", "-1", "0", "0", "0");
-        String out = captured.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Invalid water amount!"));
-    }
+    @ParameterizedTest
+    @CsvSource({
+            "-1, 0, 0, 0, water",
+            "0, -1, 0, 0, milk",
+            "0, 0, -1, 0, coffee",
+            "0, 0, 0, -1, cups"
+    })
+    void fillNegativeTest(String water, String milk, String coffee, String cups, String expected) {
+        run("fill", water, milk,
+                coffee, cups);
 
-    @Test
-    void fillNegativeMilkest() {
-        CoffeeMachine machine = run("fill", "0", "-1", "0", "0");
         String out = captured.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Invalid milk amount!"));
-    }
-
-    @Test
-    void fillNegativeCoffeeTest() {
-        CoffeeMachine machine = run("fill", "0", "0", "-1", "0");
-        String out = captured.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Invalid coffee amount!"));
-    }
-
-    @Test
-    void fillNegativeCupsTest() {
-        CoffeeMachine machine = run("fill", "0", "0", "0", "-1");
-        String out = captured.toString(StandardCharsets.UTF_8);
-        assertTrue(out.contains("Invalid cups amount!"));
+        assertTrue(out.contains("Invalid " + expected + " amount!"));
     }
 
     @Test
