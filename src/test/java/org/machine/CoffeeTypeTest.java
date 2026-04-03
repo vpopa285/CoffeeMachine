@@ -12,14 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CoffeeTypeTest {
 
-    public static Stream<Arguments> recipes() {
-        return Stream.of(
-                Arguments.of(CoffeeType.ESPRESSO, new Coffee(250, 0, 16, 4)),
-                Arguments.of(CoffeeType.LATTE, new Coffee(350, 75, 20, 7)),
-                Arguments.of(CoffeeType.CAPPUCCINO, new Coffee(200, 100, 12, 6))
-        );
-    }
-
     @ParameterizedTest
     @MethodSource("recipes")
     void coffeeRecipesExactValues(CoffeeType type, Coffee expected) {
@@ -30,6 +22,14 @@ class CoffeeTypeTest {
                 () -> assertEquals(expected.milk(), actual.milk()),
                 () -> assertEquals(expected.coffee(), actual.coffee()),
                 () -> assertEquals(expected.price(), actual.price())
+        );
+    }
+
+    public static Stream<Arguments> recipes() {
+        return Stream.of(
+                Arguments.of(CoffeeType.ESPRESSO, new Coffee(250, 0, 16, 4)),
+                Arguments.of(CoffeeType.LATTE, new Coffee(350, 75, 20, 7)),
+                Arguments.of(CoffeeType.CAPPUCCINO, new Coffee(200, 100, 12, 6))
         );
     }
 
@@ -45,13 +45,6 @@ class CoffeeTypeTest {
                 () -> assertTrue(coffee.coffee() >= 0),
                 () -> assertTrue(coffee.price() > 0)
         );
-    }
-
-    @Test
-    void recipeValidityTest() {
-        for (CoffeeType type : CoffeeType.values()) {
-            assertNotNull(type.getRecipe());
-        }
     }
 
 }
