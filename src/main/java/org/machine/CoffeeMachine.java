@@ -1,7 +1,11 @@
 package org.machine;
-import java.util.Scanner;
+import lombok.Getter;
+
+import javax.annotation.processing.Generated;
+import java.util.*;
 import java.nio.charset.StandardCharsets;
 
+@Getter
 public class CoffeeMachine {
     private int machineWater;
     private int machineMilk;
